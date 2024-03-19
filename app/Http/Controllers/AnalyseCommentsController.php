@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AnalyseCommentaires;
+use App\Models\Commentaire;
 use App\Services\AnalyseCommentsService;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class AnalyseCommentsController extends Controller
         $this->analyseCommentsService = $analyseCommentsService;
     }
 
-    public function analyseComments( $commentId)
+    public function analyseComments($commentId)
     {
         try {
             // Valider le commentaire ID ou d'autres données d'entrée si nécessaire
@@ -26,15 +27,20 @@ class AnalyseCommentsController extends Controller
                 throw new \Exception("Jeton d'accès invalide ou expiré. Veuillez vérifier votre configuration.");
             }
 
+            //get from database
+            $comment = Commentaire::where('id', $commentId)->first();
+
             // Récupérer et analyser les commentaires
-            $commentDetails = $this->analyseCommentsService->analyseComment($commentId);
+            $commentDetails = $this->analyseCommentsService->analyseComment($comment->comment_id);
 
 
             AnalyseCommentaires::create([
+                'comment_id' => $comment->id,
                  'like_count' => $commentDetails['like_count'],
                  'user_likes' => $commentDetails['user_likes'],
                  'comment_count' => $commentDetails['comment_count'],
-               'comment_id' => $commentDetails['id']
+                 'data' => json_encode($commentDetails),
+                 'date' => now()
                  ]);
 
             // Exemple: retourner un message JSON avec les commentaires analysés
@@ -50,48 +56,5 @@ class AnalyseCommentsController extends Controller
             ], 500);
         }
     }
-
-private function collectDataFromAPI($commentId, $accessToken)
-{
-    // Define the API URL and query parameters (replace with your actual values)
-    $url = 'https://api.example.com/comments?comment_id=' . $commentId;
-
-    $headers = [
-        'Authorization: Bearer ' . $accessToken,
-        'Accept: application/json',
-    ];
-
-    // Send the request and retrieve the response
-    $curl = curl_init($url);
-
-    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-
-    $response = curl_exec($curl);
-
-    if (curl_errno($curl)) {
-        throw new \Exception('Error during API request: ' . curl_error($curl));
-    }
-
-    curl_close($curl);
-
-    $responseData = json_decode($response, true);
-
-    // Check if the response is successful and collect the desired data
-    if ($responseData['success']) {
-        $commentData = [
-            'like_count' => $responseData['message']['like_count'],
-            'user_likes' => $responseData['message']['user_likes'],
-            'comment_count' => $responseData['message']['comment_count'],
-            'id' => $responseData['message']['id'],
-        ];
-
-
-        return $commentData;
-    } else {
-        throw new \Exception('API response indicates an error: ' . $responseData['message']);
-    }
-}
-
-
+    
 }

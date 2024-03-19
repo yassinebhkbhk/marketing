@@ -5,7 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnalysePagesController;
 use App\Http\Controllers\AnalysePosteController;
 use App\Http\Controllers\AnalyseCommentsController; // Import du contrôleur pour l'analyse des commentaires
-
+use App\Http\Controllers\CommentaireController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\PostController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,16 +23,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/facebook/page-insights', [AnalysePagesController::class, 'getPageInsights']);
-Route::get('/facebook/{post_id}/insights', [AnalysePagesController::class, 'getPageInsights']);
-Route::get('/facebook/page', [AnalysePagesController::class, 'getPageInsights']);
-
+Route::get('/facebook/page/{page_id}/insights', [AnalysePagesController::class, 'getPageInsights']);
 // Route pour obtenir les analyses des publications
-Route::get('/facebook/posts/{post_id}/analytics', [AnalysePosteController::class, 'getPostAnalytics']);
+Route::get('/facebook/posts/{post_id}/analytics', [AnalysePosteController::class, 'analysePoste']);
 
 // Route pour obtenir les commentaires d'une publication
 Route::get('/facebook/posts/{post_id}/comments', [AnalysePosteController::class, 'getPostComments']);
 
 // Nouvelle route pour analyser les commentaires d'une publication spécifique
-Route::get('/facebook/posts/{commentId}/comments/analyse', [AnalyseCommentsController::class, 'analyseComments']);
+Route::get('/facebook/comments/{commentId}/analyse', [AnalyseCommentsController::class, 'analyseComments']);
 
+Route::get('facebook/page/{pageId}/info', [PageController::class, 'getPageInfo']);
+
+Route::get('facebook/posts', [PostController::class, 'getPostInfo']);
+
+Route::get('facebook/posts/comments', [CommentaireController::class, 'getCommentsInfo']);

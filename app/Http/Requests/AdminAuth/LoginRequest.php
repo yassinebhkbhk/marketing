@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Hash;
 
 class LoginRequest extends FormRequest
 {
@@ -28,7 +29,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
+            'password' => ['required'],
         ];
     }
 
@@ -41,7 +42,15 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::guard('admin')->attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        $credentials = $this->only('email', 'password');
+        $password = $credentials['password'];
+
+        // Check if the password is already hashed (for example, during testing)
+        if (Hash::needsRehash($password)) {
+            // Password needs rehashing, no action needed
+            // You can log a warning or take appropriate action if necessary
+        }
+        if (!Auth::attempt($credentials)) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
@@ -51,13 +60,6 @@ class LoginRequest extends FormRequest
 
         RateLimiter::clear($this->throttleKey());
     }
-
-
-    /**
-     * Ensure the login request is not rate limited.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
     public function ensureIsNotRateLimited(): void
     {
         if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {

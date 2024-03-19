@@ -23,7 +23,8 @@ class Commentaire extends Model
      * @var array
      */
     protected $fillable = [
-        'IDCommentaire',
+        'comment_id',
+        'created_at',
         'contenu',
         'poste_id', // ajout de la clé étrangère de la relation avec la table des postes
     ];

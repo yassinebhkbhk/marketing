@@ -2,46 +2,65 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Services\AnalysePosteService;
+use App\Models\AnalysePostes;
 
 class AnalysePosteController extends Controller
 {
-    protected $analysePosteService;
+    protected $AnalysePosteService;
 
-    public function __construct(AnalysePosteService $analysePosteService)
+    public function __construct(AnalysePosteService $AnalysePosteService)
     {
-        $this->analysePosteService = $analysePosteService;
+        $this->AnalysePosteService = $AnalysePosteService;
     }
 
-    public function getPostAnalytics(Request $request, $postId)
+    public function analysePoste($post_id) // Corrected function name to follow convention
     {
         try {
-            // Analyze the post using the AnalysePosteService
-            $analytics = $this->analysePosteService->getPostAnalytics($postId);
+            // Validate the access token before using it
+            if (!$this->AnalysePosteService->validateAccessToken()) { // Corrected method call
+                throw new \Exception("Invalid or expired access token. Please check your configuration.");
+            }
 
-            // Return the analytics as JSON response
-            return response()->json($analytics);
+            // Fetch post from database
+            $post = Post::Where('id',$post_id)->first(); // Changed to findOrFail to handle missing post
+
+            // Retrieve and analyze the post
+            $postAnalysis = $this->AnalysePosteService->getPostAnalytics($post->post_id); // Corrected method call
+              if(!$postAnalysis['data']){
+                return response()->json([]);
+              }
+
+              foreach($postAnalysis['data'] as $postAnalysisData){
+                  // Create a new AnalysePoste record
+                  $value = 0;
+                  if (!empty($postAnalysisData['values'])) {
+                        $value = $postAnalysisData['values'][0]['value'];
+                  }
+                  AnalysePostes::create([
+                      'post_id' => $post->id,
+                      'name' => $postAnalysisData['name'],
+                      'period' => $postAnalysisData['period'],
+                      'value' => $value,
+                      'description' => $postAnalysisData['description'],
+                      'data' => json_encode($postAnalysisData),
+                      'date' => now()
+                  ]);
+              }
+
+            // Return a JSON response with the analyzed post
+            return response()->json([
+                'success' => true,
+                'message' => $postAnalysis,
+            ]);
         } catch (\Exception $e) {
-            // If an error occurs during the process, return an error response
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-    }
-
-    public function getPostComments($postId)
-    {
-        try {
-            // Retrieve comments for the post using the AnalysePosteService
-            $comments = $this->analysePosteService->getPostComments($postId);
-
-            // Return the comments as JSON response
-            return response()->json($comments);
-        } catch (\Exception $e) {
-            // If an error occurs during the process, return an error response
-            return response()->json(['error' => $e->getMessage()], 500);
+            // Return an error response with appropriate message
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage(),
+            ], 500);
         }
     }
 }
-
-
-

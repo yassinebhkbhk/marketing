@@ -15,13 +15,22 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('page_id'); // Ajout de la colonne pour la clé étrangère de la page
-            $table->date('Date');
-            $table->string('description');
-            $table->timestamps();
+            $table->string('post_id');
+            $table->unsignedBigInteger('page_id'); // Adding column for page foreign key
+            $table->boolean('is_expired')->default(false);
+            $table->string('parent_id')->nullable();
+            $table->boolean('is_popular')->default(false);
+            $table->string('timeline_visibility');
+            $table->string('promotion_status');
+            $table->boolean('is_hidden')->default(false);
+            $table->boolean('is_published')->default(true);
+            $table->string('created_time');
+            $table->string('updated_time');
+            $table->string('from_name')->nullable();
+            $table->unsignedBigInteger('from_id')->nullable();
+            // $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade'); // Ajout de la contrainte de clé étrangère pour la page
         });
     }

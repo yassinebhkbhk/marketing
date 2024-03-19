@@ -31,9 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
     'facebook' => [
-        'client_id' => '384125121025936', //USE FROM FACEBOOK DEVELOPER ACCOUNT
-        'client_secret' => '5072d6b81a26d9b668d288bd3332ed9e', //USE FROM FACEBOOK DEVELOPER ACCOUNT
-        'redirect' => 'http://graph.facebook.com/me/insights/{$metricName}'
+        'client_id' => env('FACEBOOK_CLIENT_ID'),
+        'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
+        'redirect' => env('FACEBOOK_REDIRECT'),
     ],
 
 ];

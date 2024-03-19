@@ -15,10 +15,13 @@ class Page extends Model
      * @var array
      */
     protected $fillable = [
+        'page_id',
+        'user_id',
         'NomPage',
         'Categorie',
         'Location',
-        'user_id',
+        'page_access_token',
+        'link', // Add 'link' to the fillable attributes
     ];
 
     public function user()

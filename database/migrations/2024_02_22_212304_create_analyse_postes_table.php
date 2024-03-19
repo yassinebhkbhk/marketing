@@ -13,7 +13,17 @@ return new class extends Migration
     {
         Schema::create('analyse_postes', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('post_id');
+            $table->string('name');
+            $table->string('period');
+            $table->unsignedBigInteger('value');
+            $table->text('description');
+            $table->json('data')->nullable();
+            $table->dateTime('date')->default(now());
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade'); // Ajout de la contrainte de clé étrangère pour la page
+
             $table->timestamps();
+
         });
     }
 

@@ -14,10 +14,12 @@ return new class extends Migration
     {
         Schema::create('analyse_commentaires', function (Blueprint $table) {
             $table->id();
-            $table->string('comment_id'); // Use 'comment_id' to match the model
+            $table->unsignedBigInteger('comment_id'); // Use 'comment_id' to match the model
             $table->integer('like_count')->nullable(); // Use specific types for each field
             $table->integer('user_likes')->nullable();
             $table->integer('comment_count')->nullable();
+            $table->json('data');
+            $table->dateTime('date');
             // Add other relevant columns based on your analysis data
             $table->timestamps();
 

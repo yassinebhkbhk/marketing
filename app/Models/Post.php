@@ -15,11 +15,23 @@ class Post extends Model
      * @var array
      */
     protected $fillable = [
-        'ID_Poste',
-        'Date',
-        'description',
-        'page_id', // Ajout de la clé étrangère pour la relation
+        'post_id', // Changed 'ID_Poste' to 'post_id' to match database column name
+        'created_time', // Changed 'Date' to 'created_time' to match database column name
+        'page_id',
+        'is_expired',
+        'parent_id',
+        'is_popular',
+        'timeline_visibility',
+        'promotion_status',
+        'is_hidden',
+        'is_published',
+        'updated_time',
+        'from_name',
+        'from_id',
     ];
+    public $timestamps = false;
+
+
 
     /**
      * The attributes that should be cast to native types.
@@ -29,11 +41,6 @@ class Post extends Model
     protected $casts = [
         'Date' => 'date',
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public function commentaires()
     {

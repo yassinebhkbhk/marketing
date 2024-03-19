@@ -14,7 +14,7 @@ class MediaSocial extends Model
      *
      * @var string
      */
-    protected $table = 'MediaSocial';
+    protected $table = 'media_social';
 
     /**
      * The attributes that are mass assignable.

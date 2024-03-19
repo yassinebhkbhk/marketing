@@ -23,8 +23,12 @@ class AnalysePages extends Model
      */
     protected $fillable = [
         // Liste des attributs remplissables en masse
+        'page_id',
+        'name',
+        'period',
+        'value',
+        'description',
         'data',
-        'date',
     ];
 
     /**

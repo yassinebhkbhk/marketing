@@ -23,27 +23,28 @@ class AnalysePosteService
     }
 
     public function getPostAnalytics($postId)
-    {
-        $accessToken = $this->pageAccessToken;
-        $metric = "post_impressions,post_clicks,post_reactions_like_total,post_reactions_love_total,post_reactions_wow_total,post_reactions_haha_total,post_reactions_sorry_total,post_reactions_anger_total,post_negative_feedback,post_engaged_fan,";
-        $period = "lifetime";
-        try {
-            $url = "https://graph.facebook.com/v19.0/{$postId}/insights?metric=" .$metric  . "&period=" . $period ."&access_token=" .$accessToken;
-            $response = $this->guzzleClient->get($url);
+{
+    $accessToken = $this->pageAccessToken;
+    $metric = "post_impressions,post_clicks,post_reactions_like_total,post_reactions_love_total,post_reactions_wow_total,post_reactions_haha_total,post_reactions_sorry_total,post_reactions_anger_total,post_negative_feedback,post_engaged_fan";
+    $period = "lifetime";
+    try {
+        $url = "https://graph.facebook.com/v19.0/$postId/insights?metric=$metric&period=$period&access_token=$accessToken";
+        $response = $this->guzzleClient->get($url);
 
-            if ($response->getStatusCode() === 200) {
-                return json_decode($response->getBody()->getContents(), true);
-            } else {
-                throw new \Exception("Failed to retrieve post analytics: Status code " . $response->getStatusCode());
-            }
-        } catch (ClientException $e) {
-            $error = json_decode($e->getResponse()->getBody()->getContents(), true);
-            $message = isset($error['error']['message']) ? "Facebook API error: " . $error['error']['message'] : "Error fetching post analytics: " . $e->getMessage();
-            throw new \Exception($message);
-        } catch (\Exception $e) {
-            throw new \Exception("Error fetching post analytics: " . $e->getMessage());
+        if ($response->getStatusCode() === 200) {
+            return json_decode($response->getBody()->getContents(), true);
+        } else {
+            throw new \Exception("Failed to retrieve post analytics: Status code " . $response->getStatusCode());
         }
+    } catch (ClientException $e) {
+        $error = json_decode($e->getResponse()->getBody()->getContents(), true);
+        $message = isset($error['error']['message']) ? "Facebook API error: " . $error['error']['message'] : "Error fetching post analytics: " . $e->getMessage();
+        throw new \Exception($message);
+    } catch (\Exception $e) {
+        throw new \Exception("Error fetching post analytics: " . $e->getMessage());
     }
+}
+
 
     public function getPostComments($postId)
     {

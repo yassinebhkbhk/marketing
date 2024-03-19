@@ -26,8 +26,10 @@ class AnalyseCommentaires extends Model
         'like_count',
         'user_likes',
         'comment_count',
-        // ... autres champs pertinents pour votre analyse
+        'data',
+        'date'
     ];
+    public $timestamps = false;
 
     /**
      * The attributes that should be cast to native types.

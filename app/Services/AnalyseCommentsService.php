@@ -32,7 +32,7 @@ class AnalyseCommentsService
     {
         $fields = "like_count,user_likes,message_tags,comment_count";
         try {
-            $url = "https://graph.facebook.com/v19.0/{$commentId}?fields=$fields&access_token={$this->pageAccessToken}";
+            $url = "https://graph.facebook.com/v19.0/$commentId?fields=$fields&access_token=$this->pageAccessToken";
             $response = $this->guzzleClient->get($url);
 
             if ($response->getStatusCode() === 200) {
