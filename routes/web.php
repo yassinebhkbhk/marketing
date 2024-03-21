@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FaceBookController;
@@ -18,6 +19,10 @@ use App\Http\Controllers\FaceBookController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
+Route::post('/users/{user}/activate', [UserController::class, 'activate'])->name('users.activate');
+Route::post('/users/{user}/deactivate', [UserController::class, 'deactivate'])->name('users.deactivate');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
