@@ -24,17 +24,19 @@
                         <td class="border px-4 py-2">{{ $user->id }}</td>
                         <td class="border px-4 py-2">{{ $user->name }}</td>
                         <td class="border px-4 py-2">{{ $user->email }}</td>
-                        <td class="border px-4 py-2">{{ $user->status == 1 ? 'Active': 'Inactive' }}</td>
+                        <td class="border px-4 py-2">{{ $user->status == 1 ? 'Active' : 'Inactive' }}</td>
                         <td class="border flex items-center justify-center h-full p-1">
                             @if ($user->status == 1)
                                 <form action="{{ route('users.deactivate', $user->id) }}" method="POST" class="m-0">
                                     @csrf
-                                    <button type="submit" class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded">Deactivate</button>
+                                    <button type="submit"
+                                        class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded">Deactivate</button>
                                 </form>
                             @else
                                 <form action="{{ route('users.activate', $user->id) }}" method="POST" class="m-0">
                                     @csrf
-                                    <button type="submit" class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded">Activate</button>
+                                    <button type="submit"
+                                        class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded">Activate</button>
                                 </form>
                             @endif
                         </td>
@@ -47,4 +49,3 @@
         {{ $users->links() }} <!-- Pagination links -->
     </div>
 </div>
-

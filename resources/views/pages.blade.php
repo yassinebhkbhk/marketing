@@ -4,6 +4,14 @@
 <title>Pages List</title>
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
+@php
+    function getRandomColor()
+    {
+        $colors = ['#007BFF', '#0069D9', '#0056B3', '#004380'];
+        return $colors[array_rand($colors)];
+    }
+@endphp
+
 <div class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold mb-4">Pages</h1>
     @if ($pages->isEmpty())
@@ -36,11 +44,3 @@
         </div>
     @endif
 </div>
-
-@php
-    function getRandomColor()
-    {
-        $colors = ['#007BFF', '#0069D9', '#0056B3', '#004380'];
-        return $colors[array_rand($colors)];
-    }
-@endphp
