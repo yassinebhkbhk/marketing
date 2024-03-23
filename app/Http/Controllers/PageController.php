@@ -10,6 +10,13 @@ class PageController extends Controller
 {
     protected $pageService;
 
+    public function index(Request $request)
+    {
+        $userId = $request->input('user', 1);
+        $pages = Page::where('user_id', $userId)->paginate(6);
+        return view('pages', compact('pages'));
+    }
+
     public function __construct(PageService $pageService)
     {
         $this->pageService = $pageService;
@@ -22,12 +29,12 @@ class PageController extends Controller
             $pageInfo = $this->pageService->getPageInfo($pageId);
 
             // Check if page information is retrieved successfully
-            if (!isset($pageInfo)) {
+            if (!isset ($pageInfo)) {
                 return response()->json(['error' => 'Failed to retrieve page information'], 500);
             }
 
             //location
-            $location =  $pageInfo['location']['city'] .','. $pageInfo['location']['country'] .','. $pageInfo['location']['street'] .','. $pageInfo['location']['zip'];
+            $location = $pageInfo['location']['city'] . ',' . $pageInfo['location']['country'] . ',' . $pageInfo['location']['street'] . ',' . $pageInfo['location']['zip'];
             // Process and potentially store the retrieved page information
             $page = Page::updateOrCreate(
                 ['page_id' => $pageInfo['id']], // Unique identifier for the page

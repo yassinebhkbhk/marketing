@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
@@ -23,6 +24,8 @@ Route::get('/', function () {
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 Route::post('/users/{user}/activate', [UserController::class, 'activate'])->name('users.activate');
 Route::post('/users/{user}/deactivate', [UserController::class, 'deactivate'])->name('users.deactivate');
+
+Route::get('/pages', [PageController::class, 'index'])->name('pages.index');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
