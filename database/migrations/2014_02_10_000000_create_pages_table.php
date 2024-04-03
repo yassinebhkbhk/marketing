@@ -11,20 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pages', function (Blueprint $table) {
+        Schema::create('page', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('page_id');
-            $table->string('NomPage');
+            $table->string('name_page');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('socialMediaId');
+            $table->unsignedBigInteger('social_media_id');
             $table->string('categorie');
-            $table->string('Location');
+            $table->string('location');
             $table->string('page_access_token');
             $table->string('link')->nullable();
+            $table->text('picture_url')->nullable();
+            $table->text('cover_picture_url')->nullable();
+            $table->text('about')->nullable();
             $table->timestamps();
-             // Ajout de la clé étrangère
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('socialMediaId')->references('id')->on('Media_social')->onDelete('cascade');
+            $table->integer('rating_count')->default(0);
+            $table->integer('fan_count')->default(0);
+            $table->string('email')->nullable();
+            $table->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
+            $table->foreign('social_media_id')->references('id')->on('Media_social')->onDelete('cascade');
             });
     }
 
@@ -35,6 +40,6 @@ return new class extends Migration
     {
 
 
-        Schema::dropIfExists('pages');
+        Schema::dropIfExists('page');
     }
 };

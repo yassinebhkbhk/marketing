@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Commentaire extends Model
+class Comment extends Model
 {
     use HasFactory;
 
@@ -15,7 +15,7 @@ class Commentaire extends Model
      *
      * @var string
      */
-    protected $table = 'Commentaires';
+    protected $table = 'comment';
 
     /**
      * The attributes that are mass assignable.
@@ -25,8 +25,8 @@ class Commentaire extends Model
     protected $fillable = [
         'comment_id',
         'created_at',
-        'contenu',
-        'poste_id', // ajout de la clé étrangère de la relation avec la table des postes
+        'message',
+        'post_id', // ajout de la clé étrangère de la relation avec la table des postes
     ];
 
     /**
@@ -43,12 +43,12 @@ class Commentaire extends Model
      */
     public function poste()
     {
-        return $this->belongsTo(Post::class);
+        return $this->belongsTo(Post::class, 'post_id');
     }
 
     public function analyseCommentaires()
     {
-        return $this->hasMany(AnalyseCommentaires::class, 'IDCommentaire');
+        return $this->hasMany(AnalyseComment::class)->orderBy('date','desc');
     }
     public function analyzeComments()
 {
@@ -62,7 +62,7 @@ class Commentaire extends Model
     ];
 
     // Créer une nouvelle instance `AnalyseCommentaire` et assigner les données
-    $analyse_commentaire = new AnalyseCommentaires;
+    $analyse_commentaire = new AnalyseComment;
     $analyse_commentaire->fill($data_to_store);
 
     // Enregistrer les données d'analyse (gestion des erreurs)

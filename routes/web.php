@@ -1,10 +1,12 @@
 <?php
 
-use App\Http\Controllers\PageController;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FaceBookController;
+use App\Http\Controllers\CommentaireController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +22,7 @@ use App\Http\Controllers\FaceBookController;
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::get('/search/users', [UserController::class, 'searchUsers'])->name('user.search');
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 Route::post('/users/{user}/activate', [UserController::class, 'activate'])->name('users.activate');
 Route::post('/users/{user}/deactivate', [UserController::class, 'deactivate'])->name('users.deactivate');
@@ -52,3 +54,14 @@ Route::prefix('facebook')->name('facebook.')->group( function(){
 Route::get('/facebook/page-insights', [FaceBookController::class, 'getPageInsights']);
 
 });
+
+// Route::get('/search/users', 'UserController@searchUsers')->name('user.search');
+Route::get('/search/users', [UserController::class,'searchUsers'])->name('user.search');
+Route::get('/page/{page_id}/posts', [PostController::class,'posts'])->name('posts');
+Route::get('/page/{page_id}/details', [PageController::class, 'pageCart'])->name('page.details');
+
+Route::get('/posts/{postId}/comments', [CommentaireController::class, 'show'])->name('comments.show');
+
+Route::get('/user-chart', [UserController::class, 'userChart'])->name('user.chart');
+
+

@@ -10,7 +10,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('analyse_pages', function (Blueprint $table) {
+        Schema::create('analyse_page', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('page_id');
             $table->string('name');
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->timestamps(); // Ajout des timestamps 'created_at' et 'updated_at'
 
             // Ajout de la clé étrangère
-            $table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade');
+            $table->foreign('page_id')->references('id')->on('page')->onDelete('cascade');
         });
     }
 
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('analyse_pages');
+        Schema::dropIfExists('analyse_page');
     }
 };

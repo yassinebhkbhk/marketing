@@ -25,12 +25,12 @@ class PageService
     public function getPageInfo(string $pageId)
     {
         try {
-            $url = "https://graph.facebook.com/v19.0/{$pageId}?fields=access_token,id,about,category,differently_open_offerings,picture,engagement,username,can_post,location,link&access_token={$this->pageAccessToken}";
+            $url = "https://graph.facebook.com/v19.0/{$pageId}?fields=access_token,fan_count,contact_address,current_location,start_info,emails,rating_count,id,about,bio,cover,category,differently_open_offerings,picture,engagement,username,location,link&access_token={$this->pageAccessToken}";
             $response = $this->guzzleClient->get($url);
 
             if ($response->getStatusCode() === 200) {
                 return json_decode($response->getBody()->getContents(), true);
-                
+
             } else {
                 throw new \Exception("Failed to retrieve page info: Status code " . $response->getStatusCode());
             }

@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('analyse_commentaires', function (Blueprint $table) {
+        Schema::create('analyse_comment', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('comment_id'); // Use 'comment_id' to match the model
             $table->integer('like_count')->nullable(); // Use specific types for each field
@@ -23,7 +23,7 @@ return new class extends Migration
             // Add other relevant columns based on your analysis data
             $table->timestamps();
 
-            $table->foreign('comment_id')->references('id')->on('commentaires')->onDelete('cascade');
+            $table->foreign('comment_id')->references('id')->on('comment')->onDelete('cascade');
         });
     }
 
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('analyse_commentaires');
+        Schema::dropIfExists('analyse_comment');
     }
 };

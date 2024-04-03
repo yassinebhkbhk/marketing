@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AnalyseCommentaires;
+use App\Models\AnalyseComment;
+use App\Models\Comment;
 use App\Models\Commentaire;
 use App\Services\AnalyseCommentsService;
 use Illuminate\Http\Request;
@@ -28,13 +29,13 @@ class AnalyseCommentsController extends Controller
             }
 
             //get from database
-            $comment = Commentaire::where('id', $commentId)->first();
+            $comment = Comment::where('id', $commentId)->first();
 
             // Récupérer et analyser les commentaires
             $commentDetails = $this->analyseCommentsService->analyseComment($comment->comment_id);
 
 
-            AnalyseCommentaires::create([
+            AnalyseComment::create([
                 'comment_id' => $comment->id,
                  'like_count' => $commentDetails['like_count'],
                  'user_likes' => $commentDetails['user_likes'],
@@ -56,5 +57,9 @@ class AnalyseCommentsController extends Controller
             ], 500);
         }
     }
-    
+    public function comment($commentId)
+    {
+        $commentDetails = AnalyseComment::where('comment_id', $commentId)->paginate(10);
+        return view('postcomment', compact('commentDetails'));
+    }
 }

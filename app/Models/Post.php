@@ -10,13 +10,20 @@ class Post extends Model
     use HasFactory;
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'post'; // Specify the table name explicitly
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'post_id', // Changed 'ID_Poste' to 'post_id' to match database column name
-        'created_time', // Changed 'Date' to 'created_time' to match database column name
+        'post_id', // Updated to match the column name in the database
+        'created_time', // Updated to match the column name in the database
         'page_id',
         'is_expired',
         'parent_id',
@@ -25,13 +32,13 @@ class Post extends Model
         'promotion_status',
         'is_hidden',
         'is_published',
+        'picture_url',
+        'message',
+        'type',
         'updated_time',
         'from_name',
         'from_id',
     ];
-    public $timestamps = false;
-
-
 
     /**
      * The attributes that should be cast to native types.
@@ -39,17 +46,23 @@ class Post extends Model
      * @var array
      */
     protected $casts = [
-        'Date' => 'date',
+        'Date' => 'date', // Assuming 'Date' is the correct column name in the database
     ];
 
-    public function commentaires()
+    /**
+     * Define the relationship with the Comment model.
+     */
+    public function comments()
     {
-        return $this->hasMany(Commentaire::class);
+        return $this->hasMany(Comment::class,'post_id');
     }
 
-    // Définition de la relation avec la table "pages"
+    /**
+     * Define the relationship with the Page model.
+     */
     public function page()
     {
         return $this->belongsTo(Page::class);
     }
+    public $timestamps = false;
 }

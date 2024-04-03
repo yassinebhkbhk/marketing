@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AnalysePostes extends Model
+class AnalysePage extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class AnalysePostes extends Model
      *
      * @var string
      */
-    protected $table = 'analyse_postes';
+    protected $table = 'Analyse_Page';
 
     /**
      * The attributes that are mass assignable.
@@ -22,29 +22,27 @@ class AnalysePostes extends Model
      * @var array
      */
     protected $fillable = [
-        'post_id',
+        // Liste des attributs remplissables en masse
+        'page_id',
         'name',
         'period',
         'value',
         'description',
         'data',
     ];
-    public $timestamps = false;
 
     /**
-     * The attributes that should be cast to native types.
+     * The attributes that should be cast.
      *
      * @var array
      */
     protected $casts = [
-        // ... conversions de type si nécessaire
+        // Liste des attributs à caster
+        'data' => 'json',
+        'date' => 'date',
     ];
-
-    /**
-     * Get the related Commentaire for the Analyse_commentaires.
-     */
-    public function post()
+    public function page()
     {
-        return $this->belongsTo(post::class);
+        return $this->belongsTo(Page::class);
     }
 }

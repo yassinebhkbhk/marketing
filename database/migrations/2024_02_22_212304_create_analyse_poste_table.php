@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('analyse_postes', function (Blueprint $table) {
+        Schema::create('analyse_poste', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('post_id');
             $table->string('name');
@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('description');
             $table->json('data')->nullable();
             $table->dateTime('date')->default(now());
-            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade'); // Ajout de la contrainte de clé étrangère pour la page
+            $table->foreign('post_id')->references('id')->on('post')->onDelete('cascade'); // Ajout de la contrainte de clé étrangère pour la page
 
             $table->timestamps();
 
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('analyse_postes');
+        Schema::dropIfExists('analyse_poste');
     }
 };

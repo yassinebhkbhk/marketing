@@ -26,8 +26,8 @@ class AnalysePagesService
     public function getPageInsights($page_id)
     {
         $accessToken = $this->pageAccessToken;
-        $metric = "page_engaged_users,page_total_actions,page_consumptions,page_posts_impressions_frequency_distribution,page_tab_views_login_top,page_cta_clicks_by_age_gender_logged_in_unique,page_cta_clicks_logged_in_by_country_unique,page_impressions_by_age_gender_unique, page_actions_post_reactions_like_total,page_actions_post_reactions_love_total,page_actions_post_reactions_like_total,page_actions_post_reactions_wow_total,page_actions_post_reactions_haha_total,page_actions_post_reactions_sorry_total,page_actions_post_reactions_anger_total,page_fan_removes_unique,page_fans_by_unlike_source_unique,page_fans,page_fans_city,page_fans_country,page_views_by_age_gender_logged_in_unique ";
-        $period = "days_28";
+        $metric = "page_impressions,page_posts_impressions,page_negative_feedback,page_impressions_by_city_unique,page_impressions_by_country_unique,post_engaged_fan,page_fans_city,page_fans_country,page_fans_locale,page_fans,page_fan_removes_unique,page_views_total,page_fan_adds_unique,";
+        $period = "month";
         try {
             $url = "https://graph.facebook.com/v19.0/$page_id/insights?metric=$metric&period=$period&access_token=$accessToken";
             $response = $this->guzzleClient->get($url);

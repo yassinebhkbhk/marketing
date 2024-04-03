@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AnalyseCommentaires extends Model
+class AnalyseComment extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class AnalyseCommentaires extends Model
      *
      * @var string
      */
-    protected $table = 'analyse_commentaires';
+    protected $table = 'analyse_comment';
 
     /**
      * The attributes that are mass assignable.
@@ -45,6 +45,6 @@ class AnalyseCommentaires extends Model
      */
     public function commentaire()
     {
-        return $this->belongsTo(Commentaire::class);
+        return $this->belongsTo(Comment::class);
     }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Services\AnalysePosteService;
-use App\Models\AnalysePostes;
+use App\Models\AnalysePoste;
 
 class AnalysePosteController extends Controller
 {
@@ -39,7 +39,7 @@ class AnalysePosteController extends Controller
                   if (!empty($postAnalysisData['values'])) {
                         $value = $postAnalysisData['values'][0]['value'];
                   }
-                  AnalysePostes::create([
+                  AnalysePoste::create([
                       'post_id' => $post->id,
                       'name' => $postAnalysisData['name'],
                       'period' => $postAnalysisData['period'],

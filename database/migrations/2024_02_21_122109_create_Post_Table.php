@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePostsTable extends Migration
+class CreatePostTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreatePostsTable extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('post', function (Blueprint $table) {
             $table->id();
             $table->string('post_id');
             $table->unsignedBigInteger('page_id'); // Adding column for page foreign key
@@ -24,6 +24,9 @@ class CreatePostsTable extends Migration
             $table->string('promotion_status');
             $table->boolean('is_hidden')->default(false);
             $table->boolean('is_published')->default(true);
+            $table->string('message')->nullable();
+            $table->text('picture_url')->nullable();
+            $table->string('type');
             $table->string('created_time');
             $table->string('updated_time');
             $table->string('from_name')->nullable();
@@ -31,7 +34,7 @@ class CreatePostsTable extends Migration
             // $table->timestamps();
 
 
-            $table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade'); // Ajout de la contrainte de clé étrangère pour la page
+            $table->foreign('page_id')->references('id')->on('page')->onDelete('cascade'); // Ajout de la contrainte de clé étrangère pour la page
         });
     }
 
@@ -42,6 +45,6 @@ class CreatePostsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('post');
     }
 }

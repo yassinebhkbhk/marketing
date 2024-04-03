@@ -14,6 +14,13 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'user';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -52,6 +59,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Page::class);
     }
+
+    /**
+     * Get the user information.
+     */
     public function userInfo()
     {
         return $this->hasOne(InformationUtilisateur::class);

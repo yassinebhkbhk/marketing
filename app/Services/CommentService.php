@@ -4,7 +4,7 @@ namespace App\Services;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ClientException;
 
-class CommentaireService
+class CommentService
 {
 
     protected $guzzleClient;
@@ -29,7 +29,7 @@ class CommentaireService
     }
     public function getCommentsInfoByPost($postId)
     {
-        $fields = "like_count,user_likes,message_tags,comment_count";
+        $fields = "like_count,via,user_likes,message_tags,comment_count,from,type,parent";
         try {
             $url = "https://graph.facebook.com/$postId/comments?access_token=$this->pageAccessToken";
             $response = $this->guzzleClient->get($url);

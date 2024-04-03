@@ -2,12 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\AnalysePage;
+use App\Models\User;
+use App\Models\MediaSocial;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Page extends Model
 {
-    use HasFactory;
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'page'; // Specify the table name explicitly
 
     /**
      * The attributes that are mass assignable.
@@ -17,29 +25,47 @@ class Page extends Model
     protected $fillable = [
         'page_id',
         'user_id',
-        'NomPage',
-        'Categorie',
+        'name_page',
+        'categorie',
         'Location',
+        'about',
+        'email',
         'page_access_token',
-        'link', // Add 'link' to the fillable attributes
+        'link',
+        'picture_url',
+        'cover_picture_url',
+        'rating_count',
+        'fan_count',
+        // Add 'link' to the fillable attributes
     ];
 
+    /**
+     * Define the relationship with the User model.
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function Media_social()
+    /**
+     * Define the relationship with the MediaSocial model.
+     */
+    public function mediaSocial()
     {
         return $this->belongsTo(MediaSocial::class);
     }
 
+    /**
+     * Define the relationship with the AnalysePage model.
+     */
     public function analyses()
     {
-        return $this->hasMany(AnalysePages::class);
+        return $this->hasMany(AnalysePage::class);
     }
 
-    // Définition de la relation avec la table "posts"
+    /**
+     * Define the relationship with the Post model.
+     */
     public function posts()
     {
         return $this->hasMany(Post::class);

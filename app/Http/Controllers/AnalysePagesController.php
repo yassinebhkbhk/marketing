@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AnalysePage;
 use App\Models\Page;
 use App\Models\AnalysePages;
 use Illuminate\Http\Request;
@@ -41,7 +42,7 @@ class AnalysePagesController extends Controller
                   if (!empty($pageAnalyseData['values'])) {
                         $value = $pageAnalyseData['values'][0]['value'];
                   }
-                  AnalysePages::create([
+                  AnalysePage::create([
                       'page_id' => $page->id,
                       'name' => $pageAnalyseData['name'],
                       'period' => $pageAnalyseData['period'],
@@ -55,7 +56,7 @@ class AnalysePagesController extends Controller
             // Return a JSON response with the analyzed post
             return response()->json([
                 'success' => true,
-                'message' => $$pageAnalyse,
+                'message' => $pageAnalyse,
             ]);
         } catch (\Exception $e) {
             // Return an error response with appropriate message
@@ -64,6 +65,14 @@ class AnalysePagesController extends Controller
                 'message' => $e->getMessage(),
             ], 500);
         }
+    }
+    public function insights($page_id)
+    {
+        $page = AnalysePage::findOrFail($page_id); // Assuming 'Page' is the model representing your page
+        $fanCount = $page->fan_count;
+        $ratingCount = $page->rating_count;
+
+        return view('pagedetails', compact('fanCount', 'ratingCount'));
     }
 
     //

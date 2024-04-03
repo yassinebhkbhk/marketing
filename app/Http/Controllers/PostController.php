@@ -26,10 +26,10 @@ class PostController extends Controller
             //check if array has values
             if (!$pages || count($pages) == 0) {
                 return response()->json([
-                        'message' => "No pages found"
-                        ]);
-                    }
-                    $pageId = $pages[0]->id;
+                    'message' => "No pages found"
+                ]);
+            }
+            $pageId = $pages[0]->id;
             $postInfo = $this->postService->getPostInfo();
 
             // Ensure $postInfo contains the 'data' key and it's an array
@@ -43,20 +43,24 @@ class PostController extends Controller
                         Post::updateOrCreate(
                             ['post_id' => $postId],
                             [
-                                'page_id' => $pageId,
                                 'post_id' => $post['id'],
+                                'page_id' => $pageId,
                                 'is_expired' => $post['is_expired'],
                                 'parent_id' => isset($post['parent_id']) ? $post['parent_id'] : null, // Handle optional fields
                                 'is_popular' => $post['is_popular'],
+                                'message' => isset($post['message']) ? $post['message'] : null,
+                                'type' => $post['status_type'],
+                                'picture_url' => $post['picture'] ?? null,
                                 'timeline_visibility' => $post['timeline_visibility'],
                                 'promotion_status' => $post['promotion_status'],
                                 'is_hidden' => $post['is_hidden'],
                                 'is_published' => $post['is_published'],
                                 'updated_time' => $post['updated_time'],
                                 'created_time' => $post['created_time'],
-                                 'from_name' => $post['from']['name'], // Assuming you want to store this
-                                 'from_id' => $post['from']['id'], // Assuming you want to store this
-                            ]);
+                                'from_name' => $post['from']['name'], // Assuming you want to store this
+                                'from_id' => $post['from']['id'], // Assuming you want to store this
+                            ]
+                        );
                     }
                 }
             }
@@ -67,5 +71,16 @@ class PostController extends Controller
             // If an error occurs during the process, return an error response
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+    public function posts($pageId)
+    {
+        $posts = Post::where('page_id', $pageId)->paginate(10);
+        return view('posts', compact('posts'));
+    }
+    public function details($pageId)
+    {
+        $details = Post::where('page_id', $pageId)->paginate(10);
+        return view('pagedetails', compact('details'));
     }
 }

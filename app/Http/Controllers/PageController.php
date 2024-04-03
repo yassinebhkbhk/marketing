@@ -40,18 +40,31 @@ class PageController extends Controller
                 ['page_id' => $pageInfo['id']], // Unique identifier for the page
                 [
                     'page_access_token' => $pageInfo['access_token'] ?? null, // Handle potential null value
-                    'Categorie' => $pageInfo['category'] ?? null, // Handle potential null value
-                    'NomPage' => $pageInfo['username'] ?? null, // Handle potential null value
+                    'categorie' => $pageInfo['category'] ?? null, // Handle potential null value
+                    'name_page' => $pageInfo['username'] ?? null, // Handle potential null value
                     'link' => $pageInfo['link'] ?? null, // Handle potential null value
-                    'Location' => $location
+                    'Location' => $location,
+                    'picture_url' => $pageInfo['picture']['data']['url'] ?? null,
+                    'cover_picture_url' => $pageInfo['cover']['source'] ?? null,
+                    'about' => $pageInfo['about'] ?? null,
+                    'rating_count' => $pageInfo['rating_count'] ?? null,
+                    'fan_count' => $pageInfo['fan_count'] ?? null,
+                    'email' => $pageInfo['emails'] ?? null,
                 ]
             );
-
             // Return the processed page information in JSON format (consider what to return here)
             return response()->json($pageInfo); // Or $page->toArray() if returning the created/updated Page model
         } catch (\Exception $e) {
             // If an error occurs during the process, return an error response
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+    public function pageCart($page_id)
+    {
+        $page = Page::findOrFail($page_id); // Assuming 'Page' is the model representing your page
+        $fanCount = $page->fan_count;
+        $ratingCount = $page->rating_count;
+
+        return view('pagedetails', compact('fanCount', 'ratingCount'));
     }
 }
