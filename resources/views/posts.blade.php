@@ -52,7 +52,7 @@
               {{ __('Page Posts') }}
           </h2>
       </x-slot>
-      <div class="bg-[#3B5998]">
+      <div>
           <div class="container mx-auto px-4 py-8">
               <h1 class="text-3xl font-bold mb-4 text-center">Page Posts</h1>
               @if ($posts->isEmpty())
