@@ -31,7 +31,7 @@ class PostService
     public function getPostInfo()
     {
 
-        $url = "https://graph.facebook.com/v19.0/me/feed?fields=status_type,id,message,target,to,created_time,picture,attachments,from,is_expired,parent_id,is_popular,timeline_visibility,promotion_status,is_hidden,is_published,updated_time&access_token=" . $this->pageAccessToken;
+        $url = "https://graph.facebook.com/v19.0/me/feed?fields=status_type,permalink_url,id,message,target,to,created_time,picture,attachments,from,is_expired,parent_id,is_popular,timeline_visibility,promotion_status,is_hidden,is_published,updated_time&access_token=" . $this->pageAccessToken;
         $response = $this->guzzleClient->get($url);
 
         if ($response->getStatusCode() === 200) {

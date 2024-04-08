@@ -38,6 +38,7 @@ class Post extends Model
         'updated_time',
         'from_name',
         'from_id',
+        'permalink_url',
     ];
 
     /**

@@ -71,8 +71,9 @@ class AnalysePagesController extends Controller
         $page = AnalysePage::findOrFail($page_id); // Assuming 'Page' is the model representing your page
         $fanCount = $page->fan_count;
         $ratingCount = $page->rating_count;
-
-        return view('pagedetails', compact('fanCount', 'ratingCount'));
+        $page_impressions= AnalysePage::query()->where("page_id",$page_id)->where("name","page_impressions" )->where("period","month");
+        dd($page_impressions);
+        return view('pagedetails', compact('fanCount', 'ratingCount','page_impressions'));
     }
 
     //

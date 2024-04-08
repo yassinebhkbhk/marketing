@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;600&display=swap">
   <style>
     body {
-      font-family: 'Libre Franklin', sans-serif;
+      font-family: 'Roboto', sans-serif;
       background-color: #f5f5f5; /* Light gray background for the main content area */
     }
 
@@ -104,6 +104,12 @@
       margin-bottom: 1rem; /* Added margin */
       text-align: center; /* Align text to center */
     }
+
+    .fixed-image {
+      width: 100%;
+      height: 200px; /* Set a fixed height for the image */
+      object-fit: cover; /* Maintain aspect ratio */
+    }
   </style>
 </head>
 
@@ -118,7 +124,7 @@
       @foreach ($pages as $page)
       <div class="page-card bg-white rounded-lg shadow-md p-6 relative overflow-hidden">
         <div class="relative mb-4">
-            <img src="{{ $page->cover_picture_url }}" alt="Cover photo of {{ $page->name_page }}" class="w-full h-40 object-cover rounded-t-lg">
+            <img src="{{ $page->cover_picture_url }}" alt="Cover photo of {{ $page->name_page }}" class="w-full h-full object-cover rounded-t-lg fixed-image"> <!-- Added fixed-image class -->
             <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-black opacity-40"></div>
             <div class="absolute top-0 right-0 mt-4 mr-4 flex justify-center items-center">
               <div class="relative w-16 h-16 rounded-full overflow-hidden shadow-lg border-4 border-white">

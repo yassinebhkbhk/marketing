@@ -25,7 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/facebook/page/{page_id}/insights', [AnalysePagesController::class, 'getPageInsights']);
 // Route pour obtenir les analyses des publications
-Route::get('/facebook/posts/{post_id}/analytics', [AnalysePosteController::class, 'analysePoste']);
+Route::get('/facebook/posts/{post_id}/analytic', [AnalysePosteController::class, 'analysePoste']);
 
 // Route pour obtenir les commentaires d'une publication
 Route::get('/facebook/posts/{post_id}/comments', [AnalysePosteController::class, 'getPostComments']);
@@ -38,3 +38,5 @@ Route::get('facebook/page/{pageId}/info', [PageController::class, 'getPageInfo']
 Route::get('facebook/posts', [PostController::class, 'getPostInfo']);
 
 Route::get('facebook/posts/comments', [CommentaireController::class, 'getCommentsInfo']);
+Route::get('/facebook/page/insights', [AnalysePagesController::class, 'getFacebookPageInsights']);
+Route::get('/posts/{postId}/detailspost', [AnalysePosteController ::class, 'showdatails']);

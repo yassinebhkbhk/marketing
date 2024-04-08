@@ -63,4 +63,12 @@ class AnalysePosteController extends Controller
             ], 500);
         }
     }
+    public function showdatails($postId)
+    {
+        // $post = AnalysePoste::where('id', $postId)->first();
+        $posts = AnalysePoste ::where('post_id',$postId)->get();
+        // return response()->json($comments);
+        return view('analyseposts', compact('posts'));
+
+    }
 }

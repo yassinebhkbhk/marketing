@@ -51,6 +51,7 @@ class PostController extends Controller
                                 'message' => isset($post['message']) ? $post['message'] : null,
                                 'type' => $post['status_type'],
                                 'picture_url' => $post['picture'] ?? null,
+                                'permalink_url' => $post['permalink_url'] ?? null,
                                 'timeline_visibility' => $post['timeline_visibility'],
                                 'promotion_status' => $post['promotion_status'],
                                 'is_hidden' => $post['is_hidden'],

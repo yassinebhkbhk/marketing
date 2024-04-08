@@ -26,6 +26,7 @@ class CreatePostTable extends Migration
             $table->boolean('is_published')->default(true);
             $table->string('message')->nullable();
             $table->text('picture_url')->nullable();
+            $table->string('permalink_url')->nullable();
             $table->string('type');
             $table->string('created_time');
             $table->string('updated_time');

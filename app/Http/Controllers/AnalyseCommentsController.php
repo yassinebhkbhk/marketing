@@ -62,4 +62,39 @@ class AnalyseCommentsController extends Controller
         $commentDetails = AnalyseComment::where('comment_id', $commentId)->paginate(10);
         return view('postcomment', compact('commentDetails'));
     }
+    public function getLikeCountData()
+    {
+        // Retrieve like count data from the database
+        $likeCountData = AnalyseComment::select('date', 'like_count')
+                            ->orderBy('date')
+                            ->get();
+
+        // Format data for Chart.js
+        $likeCountChartData = $likeCountData->map(function ($item) {
+            return [
+                'date' => $item->date->format('Y-m-d'), // Assuming date field is in 'Y-m-d' format
+                'value' => $item->like_count
+            ];
+        });
+
+        return $likeCountChartData;
+    }
+
+    public function getCommentCountData()
+    {
+        // Retrieve comment count data from the database
+        $commentCountData = AnalyseComment::select('date', 'comment_count')
+                                ->orderBy('date')
+                                ->get();
+
+        // Format data for Chart.js
+        $commentCountChartData = $commentCountData->map(function ($item) {
+            return [
+                'date' => $item->date->format('Y-m-d'), // Assuming date field is in 'Y-m-d' format
+                'value' => $item->comment_count
+            ];
+        });
+
+        return $commentCountChartData;
+    }
 }
