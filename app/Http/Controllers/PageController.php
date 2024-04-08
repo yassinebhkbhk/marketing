@@ -16,7 +16,7 @@ class PageController extends Controller
 
     public function index(Request $request)
     {
-        $userId = $request->input('user', 1);
+        $userId = auth()->user()->id;
         $pages = Page::where('user_id', $userId)->paginate(6);
         return view('pages', compact('pages'));
     }
@@ -33,7 +33,7 @@ class PageController extends Controller
             $pageInfo = $this->pageService->getPageInfo($pageId);
 
             // Check if page information is retrieved successfully
-            if (!isset ($pageInfo)) {
+            if (!isset($pageInfo)) {
                 return response()->json(['error' => 'Failed to retrieve page information'], 500);
             }
 
