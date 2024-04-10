@@ -63,12 +63,77 @@ class AnalysePosteController extends Controller
             ], 500);
         }
     }
-    public function showdatails($postId)
+    public function showDatails($postId)
     {
-        // $post = AnalysePoste::where('id', $postId)->first();
-        $posts = AnalysePoste ::where('post_id',$postId)->get();
-        // return response()->json($comments);
-        return view('analyseposts', compact('posts'));
+        // Fetch post details from the database
+        $post = Post::findOrFail($postId);
 
+        // Fetch analytical data for the post
+        $analysePoste = AnalysePoste::where('post_id', $postId)->get();
+
+        // Initialize variables to store reaction totals
+        $reactionTotals = [
+            'like' => 0,
+            'love' => 0,
+            'wow' => 0,
+            'haha' => 0,
+            'sorry' => 0,
+            'anger' => 0,
+            'totalReactions' => 0, // Total count of reactions
+        ];
+
+        // Initialize other variables
+        $impressions = $clicks = $negativeFeedback = $engagedFans = $numbreofviews = null;
+
+        // Determine the post type
+        $type = $post->type;
+
+        // Calculate reaction totals
+        foreach ($analysePoste as $analyseData) { // Change the variable name here
+            switch ($analyseData->name) {
+                case 'post_reactions_like_total':
+                    $reactionTotals['like'] += $analyseData->value;
+                    break;
+                case 'post_reactions_love_total':
+                    $reactionTotals['love'] += $analyseData->value;
+                    break;
+                case 'post_reactions_wow_total':
+                    $reactionTotals['wow'] += $analyseData->value;
+                    break;
+                case 'post_reactions_haha_total':
+                    $reactionTotals['haha'] += $analyseData->value;
+                    break;
+                case 'post_reactions_sorry_total':
+                    $reactionTotals['sorry'] += $analyseData->value;
+                    break;
+                case 'post_reactions_anger_total':
+                    $reactionTotals['anger'] += $analyseData->value;
+                    break;
+                case 'post_impressions':
+                    $impressions = $analyseData->value;
+                    break;
+                case 'post_clicks':
+                    $clicks = $analyseData->value;
+                    break;
+                case 'post_negative_feedback':
+                    $negativeFeedback = $analyseData->value;
+                    break;
+                case 'post_engaged_fan':
+                    $engagedFans = $analyseData->value;
+                    break;
+                case 'post_video_views':
+                    $numbreofviews = $analyseData->value;
+                    break;
+            }
+
+            // Calculate total count of reactions
+            if (strpos($analyseData->name, 'post_reactions_') === 0) {
+                $reactionTotals['totalReactions'] += $analyseData->value;
+            }
+        }
+
+        // Pass the reaction totals, type, and other required data to the view
+        return view('analyseposts', compact('post', 'reactionTotals', 'impressions', 'clicks', 'negativeFeedback', 'engagedFans', 'numbreofviews', 'type'));
     }
+
 }

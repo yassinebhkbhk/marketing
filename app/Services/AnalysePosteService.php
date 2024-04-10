@@ -25,7 +25,7 @@ class AnalysePosteService
     public function getPostAnalytics($postId)
 {
     $accessToken = $this->pageAccessToken;
-    $metric = "post_impressions,post_clicks,post_reactions_like_total,post_reactions_love_total,post_reactions_wow_total,post_reactions_haha_total,post_reactions_sorry_total,post_reactions_anger_total,post_negative_feedback,post_engaged_fan";
+    $metric = "post_impressions,post_video_views,post_clicks,post_reactions_like_total,post_reactions_love_total,post_reactions_wow_total,post_reactions_haha_total,post_reactions_sorry_total,post_reactions_anger_total,post_negative_feedback,post_engaged_fan";
     $period = "lifetime";
     try {
         $url = "https://graph.facebook.com/v19.0/$postId/insights?metric=$metric&period=$period&access_token=$accessToken";

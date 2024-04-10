@@ -97,4 +97,5 @@ class AnalyseCommentsController extends Controller
 
         return $commentCountChartData;
     }
+    
 }

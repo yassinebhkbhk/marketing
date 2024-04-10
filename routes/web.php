@@ -49,7 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/page/{page_id}/details', [PageController::class, 'pageCart'])->name('page.details');
 
     Route::get('/posts/{postId}/comments', [CommentaireController::class, 'show'])->name('comments.show');
-
+    Route::get('/posts/{postId}/detailspost', [AnalysePosteController ::class, 'showdatails'])->name('post.datails');
     Route::get('/user-chart', [UserController::class, 'userChart'])->name('user.chart');
 });
 require __DIR__ . '/auth.php';
