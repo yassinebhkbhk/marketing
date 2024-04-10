@@ -2,14 +2,28 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+
     <form method="POST" action="{{ route('login') }}">
         @csrf
+        <div class="flex flex-col items-center space-y-4 font-semibold text-gray-600">
+            <p>Sign in with</p>
+            <a href="{{ route('facebook.login') }}"
+                class="rounded-full py-2 px-2 max-w-md  flex justify-center items-center text-blue-600 hover:text-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 bg-white transition ease-in duration-200 text-center text-base font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 1792 1792"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z">
+                    </path>
+                </svg>
+            </a>
+            <p>or:</p>
+        </div>
 
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
-                autofocus autocomplete="username" />
+            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
+                required autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
@@ -45,18 +59,13 @@
             </x-primary-button>
 
             <div>
-                <a href="{{ route('facebook.login') }}"
-                    class="py-2 px-4 max-w-md  flex justify-center items-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg">
-                    <svg width="20" height="20" fill="currentColor" class="mr-2" viewBox="0 0 1792 1792"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z">
-                        </path>
-                    </svg>
-                    Login with Facebook
+                <a class="block underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    href="{{ route('register') }}">
+                    {{ __('You dont have Account ? Register') }}
                 </a>
             </div>
 
         </div>
     </form>
+
 </x-guest-layout>
