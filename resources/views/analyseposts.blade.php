@@ -156,7 +156,7 @@
 <x-app-layout>
     <div class="container">
         <!-- Post Statistics Cards -->
-        <div class="post-cards overflow-x-scroll p-3 scroll-smooth">
+        <div class="post-cards p-3 grid grid-cols-3 gap-3">
             <!-- Post Impression Card -->
             <div class="card" title="The number of times your Page's post entered a person's screen.">
                 <div class="card-header">Post Impression</div>
